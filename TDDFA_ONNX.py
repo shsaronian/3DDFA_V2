@@ -7,12 +7,12 @@ import numpy as np
 import cv2
 import onnxruntime
 
-from utils.onnx import convert_to_onnx
-from utils.io import _load
-from utils.functions import (
+from DDFA_V2.utils.onnx import convert_to_onnx
+from DDFA_V2.utils.io import _load
+from DDFA_V2.utils.functions import (
     crop_img, parse_roi_box_from_bbox, parse_roi_box_from_landmark,
 )
-from utils.tddfa_util import _parse_param, similar_transform
+from DDFA_V2.utils.tddfa_util import _parse_param, similar_transform
 from bfm.bfm import BFMModel
 from bfm.bfm_onnx import convert_bfm_to_onnx
 
@@ -26,7 +26,7 @@ class TDDFA_ONNX(object):
         # torch.set_grad_enabled(False)
 
         # load onnx version of BFM
-        bfm_fp = kvs.get('bfm_fp', make_abs_path('configs/bfm_noneck_v3.pkl'))
+        bfm_fp = 'DDFA_V2/configs/bfm_noneck_v3.pkl'
         bfm_onnx_fp = bfm_fp.replace('.pkl', '.onnx')
         if not osp.exists(bfm_onnx_fp):
             convert_bfm_to_onnx(
@@ -50,7 +50,7 @@ class TDDFA_ONNX(object):
             'param_mean_std_fp', make_abs_path(f'configs/param_mean_std_62d_{self.size}x{self.size}.pkl')
         )
 
-        onnx_fp = kvs.get('onnx_fp', kvs.get('checkpoint_fp').replace('.pth', '.onnx'))
+        onnx_fp = 'DDFA_V2/weights/mb1_120x120.onnx'
 
         # convert to onnx online if not existed
         if onnx_fp is None or not osp.exists(onnx_fp):

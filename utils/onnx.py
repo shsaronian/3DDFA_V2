@@ -7,8 +7,8 @@ import sys
 sys.path.append('..')
 
 import torch
-import models
-from utils.tddfa_util import load_model
+import DDFA_V2.models as models
+from DDFA_V2.utils.tddfa_util import load_model
 
 
 def convert_to_onnx(**kvs):
@@ -20,7 +20,7 @@ def convert_to_onnx(**kvs):
         size=size,
         mode=kvs.get('mode', 'small')
     )
-    checkpoint_fp = kvs.get('checkpoint_fp')
+    checkpoint_fp = 'DDFA_V2/weights/mb1_120x120.pth'
     model = load_model(model, checkpoint_fp)
     model.eval()
 
